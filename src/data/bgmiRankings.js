@@ -1,0 +1,63 @@
+export const BGMI_RANKINGS = [
+  {
+    id: 'rank-1',
+    rank: 1,
+    teamName: 'APEX STRIKERS',
+    tag: 'APX',
+    season: '2026',
+    points: 1480,
+    wwcd: 9,
+    finishes: 412,
+    decayNote: 'Recent LAN & pro circuit points active; older event points decayed.',
+  },
+  {
+    id: 'rank-2',
+    rank: 2,
+    teamName: 'BHARAT VANGUARD',
+    tag: 'BHV',
+    season: '2026',
+    points: 1395,
+    wwcd: 7,
+    finishes: 389,
+    decayNote: 'Strong recent showdown run; partial decay applied to early-season points.',
+  },
+  {
+    id: 'rank-3',
+    rank: 3,
+    teamName: 'DECCAN ROYALS',
+    tag: 'DCR',
+    season: '2026',
+    points: 1320,
+    wwcd: 6,
+    finishes: 374,
+    decayNote: 'Consistent placement points; older qualifier points decayed.',
+  },
+  {
+    id: 'rank-4',
+    rank: 4,
+    teamName: 'IRONCLAD ESPORTS',
+    tag: 'ICL',
+    season: '2026',
+    points: 1245,
+    wwcd: 5,
+    finishes: 351,
+    decayNote: 'High finish-point output with standard age-based point decay.',
+  },
+  {
+    id: 'rank-5',
+    rank: 5,
+    teamName: 'SURYA SEVEN',
+    tag: 'S7',
+    season: '2026',
+    points: 1180,
+    wwcd: 4,
+    finishes: 330,
+    decayNote: 'Active roster standings with decayed early-year points.',
+  },
+];
+
+export const POINT_DECAY_INFO = {
+  title: 'How Point Decay Works',
+  summary:
+    'Older tournament points gradually decay over time so current leaderboard rankings reflect active roster form and recent BGMI performances.',
+};
