@@ -10,6 +10,7 @@ import {
   TextInput,
 } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
+import TournamentsScreen from './src/screens/TournamentsScreen';
 
 const MENU_ITEMS = [
   { key: 'TOURNAMENTS', label: 'TOURNAMENTS' },
@@ -20,6 +21,7 @@ const MENU_ITEMS = [
 ];
 
 export default function App() {
+  const [activeView, setActiveView] = useState('MENU'); // 'MENU' | 'TOURNAMENTS'
   const [selectedSection, setSelectedSection] = useState('TOURNAMENTS');
   const [authModalVisible, setAuthModalVisible] = useState(false);
   const [authMode, setAuthMode] = useState('LOGIN'); // 'LOGIN' | 'SIGNUP'
@@ -43,78 +45,102 @@ export default function App() {
     setAuthModalVisible(false);
   };
 
+  const handleMenuPress = (key) => {
+    setSelectedSection(key);
+    if (key === 'TOURNAMENTS') {
+      setActiveView('TOURNAMENTS');
+    }
+  };
+
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar style="light" backgroundColor="#0d0d0d" />
 
-      {/* Top Header matching dark esports menu style */}
-      <View style={styles.header}>
-        <View>
-          <Text style={styles.brandMain}>BHARAT ESPORTS</Text>
-          <View style={styles.brandSubRow}>
-            <View style={styles.gameBadge}>
-              <Text style={styles.gameBadgeText}>BGMI</Text>
+      {activeView === 'TOURNAMENTS' ? (
+        <TournamentsScreen onBack={() => setActiveView('MENU')} />
+      ) : (
+        <>
+          {/* Top Header matching dark esports menu style */}
+          <View style={styles.header}>
+            <View>
+              <Text style={styles.brandMain}>BHARAT ESPORTS</Text>
+              <View style={styles.brandSubRow}>
+                <View style={styles.gameBadge}>
+                  <Text style={styles.gameBadgeText}>BGMI</Text>
+                </View>
+                <Text style={styles.brandSub}>INDIA ESPORTS HUB</Text>
+              </View>
             </View>
-            <Text style={styles.brandSub}>INDIA ESPORTS HUB</Text>
+
+            <TouchableOpacity
+              onPress={() => setSelectedSection('TOURNAMENTS')}
+              style={styles.closeBtn}
+              accessibilityLabel="Reset selection"
+            >
+              <Text style={styles.closeBtnText}>✕</Text>
+            </TouchableOpacity>
           </View>
-        </View>
 
-        <TouchableOpacity
-          onPress={() => setSelectedSection('TOURNAMENTS')}
-          style={styles.closeBtn}
-          accessibilityLabel="Reset view"
-        >
-          <Text style={styles.closeBtnText}>✕</Text>
-        </TouchableOpacity>
-      </View>
-
-      {/* Main Navigation List + Active BGMI Preview */}
-      <ScrollView style={styles.body} contentContainerStyle={styles.bodyContent}>
-        {currentUser && (
-          <View style={styles.userBanner}>
-            <Text style={styles.userBannerText}>
-              Signed in as {currentUser.ign} ({currentUser.email})
-            </Text>
-          </View>
-        )}
-
-        <View style={styles.navList}>
-          {MENU_ITEMS.map((item) => {
-            const active = selectedSection === item.key;
-            return (
-              <TouchableOpacity
-                key={item.key}
-                onPress={() => setSelectedSection(item.key)}
-                style={styles.navItem}
-              >
-                <Text style={[styles.navText, active && styles.navTextActive]}>
-                  {item.label}
+          {/* Main Navigation List + Active BGMI Preview */}
+          <ScrollView style={styles.body} contentContainerStyle={styles.bodyContent}>
+            {currentUser && (
+              <View style={styles.userBanner}>
+                <Text style={styles.userBannerText}>
+                  Signed in as {currentUser.ign} ({currentUser.email})
                 </Text>
-              </TouchableOpacity>
-            );
-          })}
-        </View>
+              </View>
+            )}
 
-        {/* Quick BGMI Section Preview Card */}
-        <View style={styles.previewCard}>
-          <Text style={styles.previewTag}>SELECTED: {selectedSection.replace('_', ' ')}</Text>
-          <Text style={styles.previewTitle}>BGMI Competitive Circuit</Text>
-          <Text style={styles.previewDesc}>
-            Ready for Bharat Esports BGMI brackets, squads, point decay leaderboards, and custom scrims.
-          </Text>
-        </View>
-      </ScrollView>
+            <View style={styles.navList}>
+              {MENU_ITEMS.map((item) => {
+                const active = selectedSection === item.key;
+                return (
+                  <TouchableOpacity
+                    key={item.key}
+                    onPress={() => handleMenuPress(item.key)}
+                    style={styles.navItem}
+                  >
+                    <Text style={[styles.navText, active && styles.navTextActive]}>
+                      {item.label}
+                    </Text>
+                  </TouchableOpacity>
+                );
+              })}
+            </View>
 
-      {/* Bottom Log In & Sign Up Buttons */}
-      <View style={styles.footerAuth}>
-        <TouchableOpacity style={styles.loginBtn} onPress={() => openAuth('LOGIN')}>
-          <Text style={styles.loginText}>Log In</Text>
-        </TouchableOpacity>
+            {/* Quick BGMI Section Preview Card */}
+            <View style={styles.previewCard}>
+              <Text style={styles.previewTag}>
+                SELECTED: {selectedSection.replace('_', ' ')}
+              </Text>
+              <Text style={styles.previewTitle}>BGMI Competitive Circuit</Text>
+              <Text style={styles.previewDesc}>
+                Ready for Bharat Esports BGMI brackets, squads, point decay leaderboards, and custom scrims.
+              </Text>
 
-        <TouchableOpacity style={styles.signupBtn} onPress={() => openAuth('SIGNUP')}>
-          <Text style={styles.signupText}>Sign Up</Text>
-        </TouchableOpacity>
-      </View>
+              {selectedSection === 'TOURNAMENTS' && (
+                <TouchableOpacity
+                  style={styles.launchBtn}
+                  onPress={() => setActiveView('TOURNAMENTS')}
+                >
+                  <Text style={styles.launchBtnText}>Open BGMI Tournaments →</Text>
+                </TouchableOpacity>
+              )}
+            </View>
+          </ScrollView>
+
+          {/* Bottom Log In & Sign Up Buttons */}
+          <View style={styles.footerAuth}>
+            <TouchableOpacity style={styles.loginBtn} onPress={() => openAuth('LOGIN')}>
+              <Text style={styles.loginText}>Log In</Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity style={styles.signupBtn} onPress={() => openAuth('SIGNUP')}>
+              <Text style={styles.signupText}>Sign Up</Text>
+            </TouchableOpacity>
+          </View>
+        </>
+      )}
 
       {/* Auth Modal */}
       <Modal
@@ -280,6 +306,19 @@ const styles = StyleSheet.create({
     color: '#a3a3a3',
     fontSize: 13,
     lineHeight: 19,
+  },
+  launchBtn: {
+    marginTop: 14,
+    backgroundColor: '#f5b800',
+    paddingVertical: 11,
+    paddingHorizontal: 14,
+    borderRadius: 4,
+    alignSelf: 'flex-start',
+  },
+  launchBtnText: {
+    color: '#0d0d0d',
+    fontSize: 13,
+    fontWeight: '800',
   },
   footerAuth: {
     paddingHorizontal: 20,
