@@ -15,6 +15,7 @@ import RankingsScreen from './src/screens/RankingsScreen';
 import CalendarScrimsScreen from './src/screens/CalendarScrimsScreen';
 import VideosScreen from './src/screens/VideosScreen';
 import ThirdPartyTournamentsScreen from './src/screens/ThirdPartyTournamentsScreen';
+import SquadRosterScreen from './src/screens/SquadRosterScreen';
 
 const MENU_ITEMS = [
   { key: 'TOURNAMENTS', label: 'TOURNAMENTS' },
@@ -22,6 +23,7 @@ const MENU_ITEMS = [
   { key: 'VIDEOS', label: 'VIDEOS' },
   { key: 'THIRD_PARTY', label: '3RD PARTY TOURNAMENTS' },
   { key: 'CALENDAR', label: 'CALENDAR' },
+  { key: 'SQUAD_ROSTER', label: 'SQUAD ROSTER' },
 ];
 
 const OPEN_LABELS = {
@@ -30,6 +32,7 @@ const OPEN_LABELS = {
   VIDEOS: 'Open BGMI Videos →',
   THIRD_PARTY: 'Open 3rd Party Tournaments →',
   CALENDAR: 'Open BGMI Calendar & Scrims →',
+  SQUAD_ROSTER: 'Open BGMI Squad Roster →',
 };
 
 export default function App() {
@@ -83,6 +86,13 @@ export default function App() {
       case 'CALENDAR':
         return (
           <CalendarScrimsScreen
+            onBack={() => setActiveView('MENU')}
+            currentUser={currentUser}
+          />
+        );
+      case 'SQUAD_ROSTER':
+        return (
+          <SquadRosterScreen
             onBack={() => setActiveView('MENU')}
             currentUser={currentUser}
           />
