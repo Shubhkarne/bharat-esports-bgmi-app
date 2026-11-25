@@ -13,6 +13,8 @@ import { StatusBar } from 'expo-status-bar';
 import TournamentsScreen from './src/screens/TournamentsScreen';
 import RankingsScreen from './src/screens/RankingsScreen';
 import CalendarScrimsScreen from './src/screens/CalendarScrimsScreen';
+import VideosScreen from './src/screens/VideosScreen';
+import ThirdPartyTournamentsScreen from './src/screens/ThirdPartyTournamentsScreen';
 
 const MENU_ITEMS = [
   { key: 'TOURNAMENTS', label: 'TOURNAMENTS' },
@@ -25,11 +27,13 @@ const MENU_ITEMS = [
 const OPEN_LABELS = {
   TOURNAMENTS: 'Open BGMI Tournaments →',
   RANKINGS: 'Open BGMI Rankings →',
+  VIDEOS: 'Open BGMI Videos →',
+  THIRD_PARTY: 'Open 3rd Party Tournaments →',
   CALENDAR: 'Open BGMI Calendar & Scrims →',
 };
 
 export default function App() {
-  const [activeView, setActiveView] = useState('MENU'); // 'MENU' | 'TOURNAMENTS' | 'RANKINGS' | 'CALENDAR'
+  const [activeView, setActiveView] = useState('MENU');
   const [selectedSection, setSelectedSection] = useState('TOURNAMENTS');
   const [authModalVisible, setAuthModalVisible] = useState(false);
   const [authMode, setAuthMode] = useState('LOGIN'); // 'LOGIN' | 'SIGNUP'
@@ -66,19 +70,34 @@ export default function App() {
     }
   };
 
+  const renderActiveScreen = () => {
+    switch (activeView) {
+      case 'TOURNAMENTS':
+        return <TournamentsScreen onBack={() => setActiveView('MENU')} />;
+      case 'RANKINGS':
+        return <RankingsScreen onBack={() => setActiveView('MENU')} />;
+      case 'VIDEOS':
+        return <VideosScreen onBack={() => setActiveView('MENU')} />;
+      case 'THIRD_PARTY':
+        return <ThirdPartyTournamentsScreen onBack={() => setActiveView('MENU')} />;
+      case 'CALENDAR':
+        return (
+          <CalendarScrimsScreen
+            onBack={() => setActiveView('MENU')}
+            currentUser={currentUser}
+          />
+        );
+      default:
+        return null;
+    }
+  };
+
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar style="light" backgroundColor="#0d0d0d" />
 
-      {activeView === 'TOURNAMENTS' ? (
-        <TournamentsScreen onBack={() => setActiveView('MENU')} />
-      ) : activeView === 'RANKINGS' ? (
-        <RankingsScreen onBack={() => setActiveView('MENU')} />
-      ) : activeView === 'CALENDAR' ? (
-        <CalendarScrimsScreen
-          onBack={() => setActiveView('MENU')}
-          currentUser={currentUser}
-        />
+      {activeView !== 'MENU' ? (
+        renderActiveScreen()
       ) : (
         <>
           {/* Top Header matching dark esports menu style */}
