@@ -11,6 +11,7 @@ import {
 } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import TournamentsScreen from './src/screens/TournamentsScreen';
+import RankingsScreen from './src/screens/RankingsScreen';
 
 const MENU_ITEMS = [
   { key: 'TOURNAMENTS', label: 'TOURNAMENTS' },
@@ -21,7 +22,7 @@ const MENU_ITEMS = [
 ];
 
 export default function App() {
-  const [activeView, setActiveView] = useState('MENU'); // 'MENU' | 'TOURNAMENTS'
+  const [activeView, setActiveView] = useState('MENU'); // 'MENU' | 'TOURNAMENTS' | 'RANKINGS'
   const [selectedSection, setSelectedSection] = useState('TOURNAMENTS');
   const [authModalVisible, setAuthModalVisible] = useState(false);
   const [authMode, setAuthMode] = useState('LOGIN'); // 'LOGIN' | 'SIGNUP'
@@ -49,6 +50,14 @@ export default function App() {
     setSelectedSection(key);
     if (key === 'TOURNAMENTS') {
       setActiveView('TOURNAMENTS');
+    } else if (key === 'RANKINGS') {
+      setActiveView('RANKINGS');
+    }
+  };
+
+  const handleOpenSelected = () => {
+    if (selectedSection === 'TOURNAMENTS' || selectedSection === 'RANKINGS') {
+      setActiveView(selectedSection);
     }
   };
 
@@ -58,6 +67,8 @@ export default function App() {
 
       {activeView === 'TOURNAMENTS' ? (
         <TournamentsScreen onBack={() => setActiveView('MENU')} />
+      ) : activeView === 'RANKINGS' ? (
+        <RankingsScreen onBack={() => setActiveView('MENU')} />
       ) : (
         <>
           {/* Top Header matching dark esports menu style */}
@@ -118,12 +129,11 @@ export default function App() {
                 Ready for Bharat Esports BGMI brackets, squads, point decay leaderboards, and custom scrims.
               </Text>
 
-              {selectedSection === 'TOURNAMENTS' && (
-                <TouchableOpacity
-                  style={styles.launchBtn}
-                  onPress={() => setActiveView('TOURNAMENTS')}
-                >
-                  <Text style={styles.launchBtnText}>Open BGMI Tournaments →</Text>
+              {(selectedSection === 'TOURNAMENTS' || selectedSection === 'RANKINGS') && (
+                <TouchableOpacity style={styles.launchBtn} onPress={handleOpenSelected}>
+                  <Text style={styles.launchBtnText}>
+                    Open BGMI {selectedSection === 'TOURNAMENTS' ? 'Tournaments' : 'Rankings'} →
+                  </Text>
                 </TouchableOpacity>
               )}
             </View>
