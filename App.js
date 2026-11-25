@@ -12,6 +12,7 @@ import {
 import { StatusBar } from 'expo-status-bar';
 import TournamentsScreen from './src/screens/TournamentsScreen';
 import RankingsScreen from './src/screens/RankingsScreen';
+import CalendarScrimsScreen from './src/screens/CalendarScrimsScreen';
 
 const MENU_ITEMS = [
   { key: 'TOURNAMENTS', label: 'TOURNAMENTS' },
@@ -21,8 +22,14 @@ const MENU_ITEMS = [
   { key: 'CALENDAR', label: 'CALENDAR' },
 ];
 
+const OPEN_LABELS = {
+  TOURNAMENTS: 'Open BGMI Tournaments →',
+  RANKINGS: 'Open BGMI Rankings →',
+  CALENDAR: 'Open BGMI Calendar & Scrims →',
+};
+
 export default function App() {
-  const [activeView, setActiveView] = useState('MENU'); // 'MENU' | 'TOURNAMENTS' | 'RANKINGS'
+  const [activeView, setActiveView] = useState('MENU'); // 'MENU' | 'TOURNAMENTS' | 'RANKINGS' | 'CALENDAR'
   const [selectedSection, setSelectedSection] = useState('TOURNAMENTS');
   const [authModalVisible, setAuthModalVisible] = useState(false);
   const [authMode, setAuthMode] = useState('LOGIN'); // 'LOGIN' | 'SIGNUP'
@@ -48,15 +55,13 @@ export default function App() {
 
   const handleMenuPress = (key) => {
     setSelectedSection(key);
-    if (key === 'TOURNAMENTS') {
-      setActiveView('TOURNAMENTS');
-    } else if (key === 'RANKINGS') {
-      setActiveView('RANKINGS');
+    if (OPEN_LABELS[key]) {
+      setActiveView(key);
     }
   };
 
   const handleOpenSelected = () => {
-    if (selectedSection === 'TOURNAMENTS' || selectedSection === 'RANKINGS') {
+    if (OPEN_LABELS[selectedSection]) {
       setActiveView(selectedSection);
     }
   };
@@ -69,6 +74,11 @@ export default function App() {
         <TournamentsScreen onBack={() => setActiveView('MENU')} />
       ) : activeView === 'RANKINGS' ? (
         <RankingsScreen onBack={() => setActiveView('MENU')} />
+      ) : activeView === 'CALENDAR' ? (
+        <CalendarScrimsScreen
+          onBack={() => setActiveView('MENU')}
+          currentUser={currentUser}
+        />
       ) : (
         <>
           {/* Top Header matching dark esports menu style */}
@@ -129,11 +139,9 @@ export default function App() {
                 Ready for Bharat Esports BGMI brackets, squads, point decay leaderboards, and custom scrims.
               </Text>
 
-              {(selectedSection === 'TOURNAMENTS' || selectedSection === 'RANKINGS') && (
+              {OPEN_LABELS[selectedSection] && (
                 <TouchableOpacity style={styles.launchBtn} onPress={handleOpenSelected}>
-                  <Text style={styles.launchBtnText}>
-                    Open BGMI {selectedSection === 'TOURNAMENTS' ? 'Tournaments' : 'Rankings'} →
-                  </Text>
+                  <Text style={styles.launchBtnText}>{OPEN_LABELS[selectedSection]}</Text>
                 </TouchableOpacity>
               )}
             </View>
