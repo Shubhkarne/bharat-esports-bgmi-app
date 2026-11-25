@@ -1,0 +1,38 @@
+export const BGMI_VIDEOS = [
+  {
+    id: 'vid-1',
+    title: 'BMIC 2026 Grand Finals — Championship Highlights',
+    category: 'HIGHLIGHTS',
+    duration: '08:42',
+    views: '420K views',
+    publishedAt: 'Nov 2026',
+    summary: 'Top zone rotations, final-circle clutches, and winner moments from Mumbai.',
+  },
+  {
+    id: 'vid-2',
+    title: 'BMSD 2026 Official Trailer & Road to Finals',
+    category: 'TRAILERS',
+    duration: '02:15',
+    views: '610K views',
+    publishedAt: 'Sep 2026',
+    summary: 'Official hype reel introducing the 48 invited squads and tournament stages.',
+  },
+  {
+    id: 'vid-3',
+    title: 'BGIS 2026 LAN Recap — Biggest Moments',
+    category: 'RECAPS',
+    duration: '11:20',
+    views: '890K views',
+    publishedAt: 'Apr 2026',
+    summary: 'Full look back at the intense playoffs and championship finale.',
+  },
+  {
+    id: 'vid-4',
+    title: 'Tier-1 Scrims Breakdown: Erangel Late-Game Zones',
+    category: 'HIGHLIGHTS',
+    duration: '06:55',
+    views: '185K views',
+    publishedAt: 'Nov 2026',
+    summary: 'Tactical look at utility usage, vehicle plays, and squad positioning.',
+  },
+];
