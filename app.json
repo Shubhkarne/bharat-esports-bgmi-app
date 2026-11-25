@@ -1,0 +1,20 @@
+{
+  "expo": {
+    "name": "Bharat Esports",
+    "slug": "bharat-esports-bgmi",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "userInterfaceStyle": "dark",
+    "backgroundColor": "#0d0d0d",
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.bharatesports.bgmi"
+    },
+    "android": {
+      "package": "com.bharatesports.bgmi",
+      "adaptiveIcon": {
+        "backgroundColor": "#0d0d0d"
+      }
+    }
+  }
+}
